@@ -7,6 +7,10 @@ from cplex.exceptions import CplexSolverError
 
 
 class Lshaped(object):
+    """
+    This is simple implementation of the L-shaped method,
+    see Birge, John R., Louveaux, François "Introduction to Stochastic Programming".
+    """
 
     def __init__(self, *args, **kwargs):
         self.master = cplex.Cplex(args[0])
@@ -93,8 +97,6 @@ class Lshaped(object):
     def _check_termination(self):
         if ( (self.er - sum(self.Er[:]*self.x0[:])) <= self.theta ):
             print "[STOP]"
-            # print " * Optimal solution:\t x0 = {} \t theta = {}".format(x0, master.solution.get_values()[-1])
-            # print " \t\t\t Obj. value = {}".format(master.solution.get_objective_value())
             self.teta[0] = self.master.solution.get_values()[-1]
             self.obj_value[0] = self.master.solution.get_objective_value()
             self.xvec += self.x0
@@ -142,6 +144,7 @@ class Lshaped(object):
         print " \t\t\t Obj. value = {}".format(self.obj_value)
 
 
+# Deprecated:
 def lshaped(master_arg, subproblems, probs, num_scen, x, teta, obj_value):
 
     master = cplex.Cplex(master_arg)
